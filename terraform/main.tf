@@ -1,25 +1,3 @@
-terraform {
-  required_providers {
-    linode = {
-      source = "linode/linode"
-      version = "2.27.0"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "2.15.0"
-    }
-  }
-}
-
-provider "linode" {
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = "kube-config"
-  }
-}
-
 resource "linode_lke_cluster" "lke_cluster" {
   label       = "main"
   k8s_version = "1.30"
@@ -45,5 +23,11 @@ resource "helm_release" "argocd" {
   set {
     name  = "server.service.type"
     value = "LoadBalancer"
+  }
+}
+
+resource "null_resource" "argo_password" {
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig kube-config -n argocd get secret argocd-initial-admin-secret -o jsonpath={.data.password} | base64 -d > argocd-login.txt"
   }
 }

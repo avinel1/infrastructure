@@ -1,6 +1,7 @@
 *.pem
 *.env
 kube-config
+argocd-login.txt
 
 # User-specific stuff
 .idea/

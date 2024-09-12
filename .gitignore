@@ -1,7 +1,7 @@
 *.pem
 *.env
-kube-config
 argocd-login.txt
+kubeconfig.yaml
 
 # User-specific stuff
 .idea/
